@@ -1,5 +1,9 @@
 /* eslint-disable linebreak-style */
 /* eslint-disable indent */
+
+import $ from 'jquery';
+import 'slick-carousel';
+
 $(document).ready(function() {
     $('.glazing_slider').slick({
         infinite: true,
