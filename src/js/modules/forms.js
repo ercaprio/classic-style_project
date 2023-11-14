@@ -27,7 +27,7 @@ const forms = () => {
 
 	const clearInputs = () => {
 		inputs.forEach(item => {
-			item.valie = '';
+			item.value = '';
 		});
 	};
 
