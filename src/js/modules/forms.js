@@ -1,13 +1,11 @@
-const forms = () => {
-	const form = document.querySelectorAll('form'),
-		inputs = document.querySelectorAll('input'),
-		phoneInputs = document.querySelectorAll('input[name="user_phone"]');
+import { data } from 'jquery';
+import checkNumInputs from './checkNumInputs';
 
-	phoneInputs.forEach(item => {
-		item.addEventListener('input', () => {
-			item.value = item.value.replace(/\D/g, '');
-		});
-	});
+const forms = (state) => {
+	const form = document.querySelectorAll('form'),
+		inputs = document.querySelectorAll('input');
+
+	checkNumInputs('input[name="user_phone"]');
 
 	const message = {
 		loading: 'Загрузка...',
@@ -18,11 +16,11 @@ const forms = () => {
 	const postData = async (url, data) => {
 		document.querySelector('.status').textContent = message.loading;
 		let res = await fetch(url, {
-			method: 'POST', 
+			method: 'POST',
 			body: data
 		});
 
-		return await res.json();
+		return await res.text();
 	};
 
 	const clearInputs = () => {
@@ -40,11 +38,14 @@ const forms = () => {
 			item.appendChild(statusMessage);
 
 			const formData = new FormData(item);
-			const jsonData = {};
-			for (const [key, value] of formData.entries()) {
-				jsonData[key] = value;
-			  }
-			postData('assets/server.php', JSON.stringify(jsonData))
+
+			if (item.getAttribute('data-calc') === 'end') {
+				for (let key in state) {
+					formData.append(key, state[key]);
+				}
+			}
+			
+			postData('assets/server.php', formData)
 				.then(res => {
 					console.log(res);
 					statusMessage.textContent = message.success;
