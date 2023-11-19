@@ -44,7 +44,24 @@ const forms = (state) => {
 					formData.append(key, state[key]);
 				}
 			}
-			
+			document.querySelectorAll('.checkbox').forEach(item => {
+				item.checked = false;
+			});
+
+			for (let key in state) {
+				if (state.hasOwnProperty(key)) {
+					delete state[key];
+				}
+			}
+
+			function closeModalByTime(selector, time) {
+				setTimeout(function() {
+					document.querySelector(selector).style.display = 'none';
+					document.body.style.overflow = '';
+				}, time);
+			}
+			closeModalByTime('.popup_calc_end', 3000);
+
 			postData('assets/server.php', formData)
 				.then(res => {
 					console.log(res);
@@ -55,7 +72,7 @@ const forms = (state) => {
 					clearInputs();
 					setTimeout(() => {
 						statusMessage.remove();
-					}, 5000);
+					}, 3000);
 				});
 		});
 	});

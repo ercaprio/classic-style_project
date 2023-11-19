@@ -9,8 +9,6 @@ window.addEventListener('DOMContentLoaded', () => {
     'use strict';
 
     let modalState = {
-        form: 0,
-        type: 'tree'
     };
 
     changeModalState(modalState);

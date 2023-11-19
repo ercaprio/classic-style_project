@@ -1,10 +1,11 @@
 /* eslint-disable indent */
-const modals = () => {
+const modals = (state) => {
 	function bindModal(triggerSelector, modalSelector, closeSelector, closeClickOverlay = true) {
         const trigger = document.querySelectorAll(triggerSelector),
               modal =  document.querySelector(modalSelector),
               close = document.querySelector(closeSelector),
-              windows = document.querySelectorAll('[data-modal]');
+              windows = document.querySelectorAll('[data-modal]'),
+              form = document.querySelectorAll('form');
 
 		trigger.forEach(item => {
             item.addEventListener('click', (e) => {
@@ -30,6 +31,13 @@ const modals = () => {
             modal.style.display = 'none';
             document.body.style.overflow = '';
             // document.body.classList.remove('modal-open');
+
+            form.forEach(item => {
+                item.reset();
+            });
+
+            document.querySelector('#width').value = '';
+		    document.querySelector('#height').value = '';
         });
 
         modal.addEventListener('click', (e) => {
@@ -41,6 +49,13 @@ const modals = () => {
                 modal.style.display = 'none';
                 document.body.style.overflow = '';
                 // document.body.classList.remove('modal-open');
+
+                form.forEach(item => {
+                    item.reset();
+                });
+
+                document.querySelector('#width').value = '';
+		        document.querySelector('#height').value = '';
             }
         });
 	}
