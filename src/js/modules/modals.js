@@ -5,7 +5,8 @@ const modals = (state) => {
               modal =  document.querySelector(modalSelector),
               close = document.querySelector(closeSelector),
               windows = document.querySelectorAll('[data-modal]'),
-              form = document.querySelectorAll('form');
+              form = document.querySelectorAll('form'),
+              scroll = calcScroll();
 
 		trigger.forEach(item => {
             item.addEventListener('click', (e) => {
@@ -19,6 +20,7 @@ const modals = (state) => {
     
                 modal.style.display = 'block';
                 document.body.style.overflow = 'hidden';
+                document.body.style.marginRight = `${scroll}px`;
                 // document.body.classList.add('modal-open');
             });
         });
@@ -35,6 +37,8 @@ const modals = (state) => {
             form.forEach(item => {
                 item.reset();
             });
+
+            document.body.style.marginRight = '0px';
 
             document.querySelector('#width').value = '';
 		    document.querySelector('#height').value = '';
@@ -53,6 +57,8 @@ const modals = (state) => {
                 form.forEach(item => {
                     item.reset();
                 });
+                
+                document.body.style.marginRight = '0px';
 
                 document.querySelector('#width').value = '';
 		        document.querySelector('#height').value = '';
@@ -65,6 +71,20 @@ const modals = (state) => {
             document.querySelector(selector).style.display = 'block';
             document.body.style.overflow = 'hidden';
         }, time);
+    }
+
+    function calcScroll() {
+        let div = document.createElement('div');
+
+        div.style.width = '50px';
+        div.style.height = '50px';
+        div.style.overflowY = 'scroll';
+        div.style.visibility = 'hidden';
+
+        document.body.appendChild(div);
+        let scrollWidth = div.offsetWidth - div.clientWidth;
+        div.remove();
+        return scrollWidth;
     }
 
     bindModal('.popup_engineer_btn', '.popup_engineer', '.popup_engineer .popup_close');
